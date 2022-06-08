@@ -70,11 +70,18 @@
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
                 <version>6.1.1</version>
+                <configuration>
+                  <cveUrlModified>https://www.lhorn.de/nist/nvdcve-1.1-2019.json.gz</cveUrlModified>
+                  <cveUrlBase>https://www.lhorn.de/nist/nvdcve-1.1-2019.json.gz</cveUrlBase>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>check</goal>
                         </goals>
+                        <configuration>
+                           <format>xml</format>
+                        </configuration>
                     </execution>
                 </executions>
                 <configuration>
@@ -85,6 +92,14 @@
                     <centralAnalyzerEnabled>false</centralAnalyzerEnabled>
                     <failOnError>false</failOnError>
                 </configuration>
+            </plugin>
+            <plugin>
+                  <groupId>org.owasp</groupId>
+                  <artifactId>dependency-check-maven</artifactId>
+                  <configuration>
+                           <!-- Never fail the build for this module but still check for vulnerabilities. -->
+                           <failBuildOnCVSS>11</failBuildOnCVSS>
+                  </configuration>
             </plugin>
             <!-- test coverage -->
             <plugin>
