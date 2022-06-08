@@ -15,15 +15,13 @@ pipeline {
       }
     }
 
-    stage ('PMD SpotBugs') {
+    stage ('OWASP Dependency-Check Vulnerabilities') {
       steps {
         withMaven(maven : 'mvn-3.6.3') {
-          sh 'mvn pmd:pmd pmd:cpd spotbugs:spotbugs'
+          sh 'mvn dependency-check:check'
         }
 
-        recordIssues enabledForFailure: true, tool: spotBugs()
-        recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
-        recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+        dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
       }
     }
 
